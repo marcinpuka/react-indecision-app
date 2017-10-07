@@ -13,9 +13,22 @@ export default class IndecisionApp extends React.Component {
         selectedOption: undefined
     };
 
+    handleCloseModal = () => {
+        this.setState( () => {
+            return {
+                selectedOption: undefined
+            }
+        });
+    }
+ 
+
     handlePick = () => {
         let option = this.state.options[Math.floor(Math.random() * this.state.options.length)];
-        alert(option);
+        this.setState(() => {
+            return {
+                selectedOption: option
+            };
+        });
     };
 
     handleDeleteOptions = () => {
@@ -81,7 +94,7 @@ export default class IndecisionApp extends React.Component {
                 <Action hasOptions={this.state.options.length > 0} handlePick={this.handlePick} should={this.state.should} />
                 <Options options={this.state.options} handleDeleteOption={this.handleDeleteOption} handleDeleteOptions={this.handleDeleteOptions} />
                 <AddOption handleAddOption={this.handleAddOption} />
-                <OptionModal selectedOption={this.state.selectedOption}/>
+                <OptionModal selectedOption={this.state.selectedOption} closeModal={this.handleCloseModal}/>
             </div>
         );
     }
