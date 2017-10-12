@@ -9,18 +9,18 @@ import OptionModal from './OptionModal';
 export default class IndecisionApp extends React.Component {
 
     state = {
-        options: [], 
+        options: [],
         selectedOption: undefined
     };
 
     handleCloseModal = () => {
-        this.setState( () => {
+        this.setState(() => {
             return {
                 selectedOption: undefined
             }
         });
     }
- 
+
 
     handlePick = () => {
         let option = this.state.options[Math.floor(Math.random() * this.state.options.length)];
@@ -62,28 +62,28 @@ export default class IndecisionApp extends React.Component {
     };
 
     componentDidMount() {
-        
-                try {
-                    const json = localStorage.getItem("options");
-                    const options = JSON.parse(json);
-                    if (options) {
-                        this.setState(() => ({ options }));
-                    }
-                } catch (e) {
-                    //Do nothing at all
-                }
+
+        try {
+            const json = localStorage.getItem("options");
+            const options = JSON.parse(json);
+            if (options) {
+                this.setState(() => ({ options }));
             }
-        
-            componentDidUpdate(prevProps, prevState) {
-                if (prevState.options.length !== this.state.options.length) {
-                    const json = JSON.stringify(this.state.options);
-                    localStorage.setItem("options", json);
-                }
-            }
-        
-            componentWillUnmount() {
-                console.log("componentWillUnmount!");
-            }
+        } catch (e) {
+            //Do nothing at all
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.options.length !== this.state.options.length) {
+            const json = JSON.stringify(this.state.options);
+            localStorage.setItem("options", json);
+        }
+    }
+
+    componentWillUnmount() {
+        console.log("componentWillUnmount!");
+    }
 
     render() {
         const subtitle = "Put your life in the hands of a computer";
@@ -91,10 +91,14 @@ export default class IndecisionApp extends React.Component {
         return (
             <div>
                 <Header subtitle={subtitle} />
-                <Action hasOptions={this.state.options.length > 0} handlePick={this.handlePick} should={this.state.should} />
-                <Options options={this.state.options} handleDeleteOption={this.handleDeleteOption} handleDeleteOptions={this.handleDeleteOptions} />
-                <AddOption handleAddOption={this.handleAddOption} />
-                <OptionModal selectedOption={this.state.selectedOption} closeModal={this.handleCloseModal}/>
+                <div className="container">
+                    <Action hasOptions={this.state.options.length > 0} handlePick={this.handlePick} should={this.state.should} />
+                    <div className="widget">
+                        <Options options={this.state.options} handleDeleteOption={this.handleDeleteOption} handleDeleteOptions={this.handleDeleteOptions} />
+                        <AddOption handleAddOption={this.handleAddOption} />
+                    </div>
+                </div>
+                <OptionModal selectedOption={this.state.selectedOption} closeModal={this.handleCloseModal} />
             </div>
         );
     }
